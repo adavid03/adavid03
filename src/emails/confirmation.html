@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirm your email</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            line-height: 1.5;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            background-color: #f7f7f7;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 20px 0;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+        h1 {
+            color: #1a1a1a;
+            font-size: 24px;
+            font-weight: 600;
+            margin: 0 0 20px;
+        }
+        p {
+            color: #4a4a4a;
+            font-size: 16px;
+            margin: 0 0 20px;
+        }
+        .button {
+            display: inline-block;
+            background: linear-gradient(to right, #3b82f6, #8b5cf6);
+            color: white;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-weight: 500;
+            margin: 20px 0;
+        }
+        .code {
+            background: #f3f4f6;
+            padding: 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 20px;
+            letter-spacing: 2px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .footer {
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            margin-top: 30px;
+        }
+        .footer a {
+            color: #3b82f6;
+            text-decoration: none;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: #111827;
+            }
+            .card {
+                background: #1f2937;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+            }
+            h1 {
+                color: #f3f4f6;
+            }
+            p {
+                color: #d1d5db;
+            }
+            .code {
+                background: #374151;
+                color: #f3f4f6;
+            }
+            .footer {
+                color: #9ca3af;
+            }
+            .footer a {
+                color: #60a5fa;
+            }
+            .logo {
+                filter: invert(1);
+            }
+            .button {
+                background: linear-gradient(to right, #60a5fa, #a78bfa);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <img src="{{ .SiteURL }}/logo.png" alt="Logo" class="logo">
+                <h1>Confirm your email address</h1>
+            </div>
+            
+            <p>Thanks for signing up for InsightLab! Please confirm your email address by clicking the button below:</p>
+            
+            <div style="text-align: center;">
+                <a href="{{ .ConfirmationURL }}" class="button">Confirm Email Address</a>
+            </div>
+            
+            <p>Or enter this confirmation code:</p>
+            <div class="code">{{ .Token }}</div>
+            
+            <p style="color: #6b7280; font-size: 14px;">
+                If you didn't create an account, you can safely ignore this email.
+            </p>
+        </div>
+        
+        <div class="footer">
+            <p>
+                Sent For <a href="{{ .SiteURL }}">InsightLab</a><br>
+                {{ .SiteURL }}
+            </p>
+        </div>
+    </div>
+</body>
+</html> 
