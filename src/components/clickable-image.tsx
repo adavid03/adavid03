@@ -1,66 +1,56 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { AnimatePresence } from "framer-motion";
+import Image, { ImageProps } from "next/image";
 import ImageModal from "./image-modal";
+import { FaExpand } from "react-icons/fa";
 
-interface ClickableImageProps {
-  src: string;
-  alt: string;
-  className?: string;
+interface ClickableImageProps extends Omit<ImageProps, 'onClick'> {
+  title?: string;
   containerClassName?: string;
-  fill?: boolean;
-  width?: number;
-  height?: number;
-  sizes?: string;
 }
 
-export default function ClickableImage({
-  src,
-  alt,
-  className = "",
+export default function ClickableImage({ 
+  src, 
+  alt, 
+  title,
   containerClassName = "",
-  fill = false,
-  width,
-  height,
-  sizes = "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+  className = "",
+  ...imageProps 
 }: ClickableImageProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const imageProps = fill
-    ? { 
-        fill: true,
-        sizes,
-      }
-    : { 
-        width: width || 1920, 
-        height: height || 1080,
-      };
+  const getImageUrl = (src: ImageProps['src']): string => {
+    if (typeof src === 'string') return src;
+    const imgSrc = src as { src?: string; default?: string };
+    return imgSrc.src || imgSrc.default || '';
+  };
 
   return (
     <>
-      <div 
-        className={`relative ${containerClassName} ${fill ? 'h-full w-full' : ''}`}
-        style={fill ? { position: 'relative', height: '100%', width: '100%' } : undefined}
+      <div
+        className={`relative w-full h-full cursor-pointer ${containerClassName}`}
+        onClick={() => setIsModalOpen(true)}
       >
         <Image
           src={src}
           alt={alt}
+          className={`object-contain ${className}`}
           {...imageProps}
-          className={`cursor-pointer transition-transform hover:scale-105 ${className}`}
-          onClick={() => setIsModalOpen(true)}
         />
+        <div className="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 hover:opacity-100 transition-opacity duration-200">
+          <FaExpand className="w-6 h-6 text-gray-900 dark:text-white" />
+        </div>
       </div>
-      <AnimatePresence>
-        {isModalOpen && (
-          <ImageModal
-            src={src}
-            alt={alt}
-            onClose={() => setIsModalOpen(false)}
-          />
-        )}
-      </AnimatePresence>
+
+      {isModalOpen && (
+        <ImageModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          imageUrl={getImageUrl(src)}
+          title={title || alt}
+        />
+      )}
     </>
   );
 } 

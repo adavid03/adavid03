@@ -14,6 +14,7 @@ interface MenuItem {
   title: string;
   content?: React.ReactNode;
   href?: string;
+  onClick?: () => Promise<void> | void;
 }
 
 export default function Navbar() {
@@ -103,7 +104,7 @@ export default function Navbar() {
     setIsSearchOpen(true);
   };
 
-  const menuItems: MenuItem[] = [
+  const baseMenuItems: MenuItem[] = [
     {
       title: "Research",
       content: (
@@ -130,16 +131,18 @@ export default function Navbar() {
                   transition={{ duration: 0.15, delay: index * 0.05 }}
                   className="my-5 w-fit font-light"
                 >
-                  <Link
-                    className="dark:hover:text-gray-300 hover:text-gray-600 transition-colors cursor-pointer text-sm"
-                    href={`${item.href}`}
-                    onClick={() => {
-                      setActiveMenu(null);
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    {item.title}
-                  </Link>
+                  <div className="flex items-center gap-2">
+                    <Link
+                      className="dark:hover:text-gray-300 hover:text-gray-600 transition-colors cursor-pointer text-sm"
+                      href={`${item.href}`}
+                      onClick={() => {
+                        setActiveMenu(null);
+                        setIsMobileMenuOpen(false);
+                      }}
+                    >
+                      {item.title}
+                    </Link>
+                  </div>
                 </motion.div>
               ))}
             </div>
@@ -170,6 +173,10 @@ export default function Navbar() {
                 {
                   title: "The Art of Linear Transformations",
                   href: "/projects/the-art-of-linear-transformations",
+                },
+                {
+                  title: "Applications of First-Order Differential Equations",
+                  href: "/projects/appl-diffeq",
                 },
               ].map((item, index) => (
                 <motion.div
@@ -340,83 +347,11 @@ export default function Navbar() {
       title: "About",
       href: "/about",
     },
-    {
-      title: "InsightLab",
-      content: (
-        <motion.div
-          initial={{ opacity: 0, y: -5 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.15 }}
-          className="flex flex-col lg:flex-row gap-8 lg:gap-20"
-        >
-          <div className="flex flex-col">
-            <h3 className="text-sm font-light my-5 dark:text-gray-400 text-gray-600">
-              InsightLab
-            </h3>
-            <div className="flex flex-col gap-5">
-              {[
-                { title: "Open InsightLab", href: "/insight" },
-                { title: "View Account", href: "/insight/account" },
-              ].map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.15, delay: index * 0.05 }}
-                  className="w-fit font-light"
-                >
-                  <Link
-                    className="dark:hover:text-gray-300 hover:text-gray-600 transition-colors cursor-pointer text-sm"
-                    href={item.href}
-                    onClick={() => {
-                      setActiveMenu(null);
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    {item.title}
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-          <div className="flex flex-col">
-            <h3 className="text-sm font-light my-5 dark:text-gray-400 text-gray-600">
-              Other
-            </h3>
-            <div className="flex flex-col gap-5">
-              {[
-                { 
-                  title: "Open Beetlejuice eDNA", 
-                  href: "https://beetlejuiceedna.adavid03.com",
-                  external: true 
-                },
-              ].map((item, index) => (
-                <motion.div
-                  key={item.title}
-                  initial={{ opacity: 0, y: -5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.15, delay: index * 0.05 }}
-                  className="w-fit font-light"
-                >
-                  <Link
-                    className="dark:hover:text-gray-300 hover:text-gray-600 transition-colors cursor-pointer text-sm"
-                    href={item.href}
-                    target={item.external ? "_blank" : undefined}
-                    onClick={() => {
-                      setActiveMenu(null);
-                      setIsMobileMenuOpen(false);
-                    }}
-                  >
-                    {item.title}
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-      ),
-    },
   ];
+
+  const menuItems: MenuItem[] = [
+    ...baseMenuItems,
+  ].filter((item): item is MenuItem => Boolean(item));
 
   // Slide variants: small ±15 offset, quick 0.15s
   const slideVariants = {

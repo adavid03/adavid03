@@ -1,146 +1,128 @@
 "use client";
 
-import ResearchLayout from "@/components/research-layout";
 import { motion } from "framer-motion";
-import { Code2, Database, LineChart } from "lucide-react";
+import ResearchLayout from "@/components/research-layout";
 
-export default function Methods() {
-  const sections = [
-    {
-      icon: <Code2 className="w-5 h-5" />,
-      title: "Technical Implementation",
-      description: "Built with modern web technologies for optimal performance and security",
-      items: [
-        {
-          title: "Core Technology Stack",
-          content: [
-            "NextJS 14.x with TypeScript for robust type safety",
-            "Modern browser support (Chrome 120+, Firefox 120+, Safari 17+)",
-            "Visual Studio Code with specialized extensions"
-          ]
-        },
-        {
-          title: "Key Dependencies",
-          content: [
-            "plotly.js-dist-min 3.0.1 for interactive data visualization",
-            "next-themes 0.4.4 for seamless dark mode support",
-            "xlsx 0.18.5 for efficient Excel file processing"
-          ]
-        }
-      ]
-    },
-    {
-      icon: <Database className="w-5 h-5" />,
-      title: "Data Processing Pipeline",
-      description: "Comprehensive data handling system with multiple processing modes",
-      items: [
-        {
-          title: "Data Validation & Processing",
-          content: [
-            "Automated structure integrity verification",
-            "Missing value detection and handling",
-            "Multiple processing modes (Template, Auto, Hybrid)"
-          ]
-        },
-        {
-          title: "Analysis Framework",
-          content: [
-            "Pearson correlation coefficient calculations",
-            "Environmental factor analysis",
-            "Biodiversity indices computation"
-          ]
-        }
-      ]
-    },
-    {
-      icon: <LineChart className="w-5 h-5" />,
-      title: "Data Visualization",
-      description: "Interactive visualization tools for comprehensive data analysis",
-      items: [
-        {
-          title: "Interactive Features",
-          content: [
-            "Real-time sample information tooltips",
-            "Dynamic statistical metrics display",
-            "Interactive data point exploration"
-          ]
-        },
-        {
-          title: "Correlation Analysis",
-          content: [
-            "Interactive heat map visualization",
-            "Color-coded correlation strengths (-1 to +1)",
-            "Precise value tooltips on hover"
-          ]
-        }
-      ]
-    }
-  ];
-
+export default function MethodsPage() {
   return (
     <ResearchLayout>
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 mt-8">
+        {/* Title Section */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="mb-12"
+          className="mb-16 text-center"
         >
-          <h1 className="text-3xl font-bold mb-4 text-gray-900 dark:text-white">Methods</h1>
-          <p className="text-gray-600 dark:text-gray-300">
-            A comprehensive overview of the technical implementation, data processing pipeline, and visualization techniques used in the Beetlejuice eDNA Web project.
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-6">
+            Methodology: Technical Implementation and Data Analysis Pipeline
+          </h1>
+          <p className="text-xl text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
+            A comprehensive overview of the development process, data analysis methods, and technical architecture
           </p>
         </motion.div>
 
-        <div className="space-y-12">
-          {sections.map((section, sectionIndex) => (
-            <motion.section
-              key={section.title}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: sectionIndex * 0.1 }}
-              className="space-y-6"
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-2 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400">
-                  {section.icon}
-                </div>
-                <div>
-                  <h2 className="text-xl font-semibold text-gray-900 dark:text-white">{section.title}</h2>
-                  <p className="text-sm text-gray-600 dark:text-gray-400">{section.description}</p>
+        {/* Main Content */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
+          className="prose dark:prose-invert max-w-none"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Technical Architecture</h2>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                  The application is built using a modern web technology stack, focusing on performance, accessibility, and user experience.
+                </p>
+                <div className="space-y-4">
+                  <div className="bg-white dark:bg-gray-700 rounded-lg p-4">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Frontend Framework</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Next.js 14.x with TypeScript for robust type safety and maintainability</p>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 rounded-lg p-4">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Data Processing</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Client-side data validation and transformation using modern JavaScript</p>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 rounded-lg p-4">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Visualization</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Server-side plot generation using Plotly.js for optimal performance</p>
+                  </div>
                 </div>
               </div>
 
-              <div className="grid sm:grid-cols-2 gap-6 pl-10">
-                {section.items.map((item, itemIndex) => (
-                  <motion.div
-                    key={item.title}
-                    initial={{ opacity: 0, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.5, delay: (sectionIndex * 0.1) + (itemIndex * 0.1) }}
-                    className="space-y-3"
-                  >
-                    <h3 className="font-medium text-gray-900 dark:text-white">{item.title}</h3>
-                    <ul className="space-y-2">
-                      {item.content.map((point, i) => (
-                        <motion.li
-                          key={point}
-                          initial={{ opacity: 0, x: -10 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ duration: 0.3, delay: (sectionIndex * 0.1) + (itemIndex * 0.1) + (i * 0.1) }}
-                          className="flex items-start gap-2 text-sm text-gray-600 dark:text-gray-300"
-                        >
-                          <div className="mt-2 w-1 h-1 rounded-full bg-blue-500 flex-shrink-0" />
-                          <span>{point}</span>
-                        </motion.li>
-                      ))}
-                    </ul>
-                  </motion.div>
-                ))}
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Data Processing Pipeline</h2>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-blue-600 dark:text-blue-400 font-medium">1.</span>
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">Data Validation</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Implementation of robust input validation and error handling for environmental data</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-blue-600 dark:text-blue-400 font-medium">2.</span>
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">Data Transformation</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Conversion of raw environmental data into analysis-ready formats</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-blue-600 dark:text-blue-400 font-medium">3.</span>
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">Statistical Analysis</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Implementation of correlation and statistical methods for environmental data analysis</p>
+                  </div>
+                </div>
               </div>
-            </motion.section>
-          ))}
-        </div>
+            </div>
+
+            <div>
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Environmental Data Analysis</h2>
+              <div className="bg-gray-50 dark:bg-gray-800 rounded-lg p-6 mb-8">
+                <p className="text-gray-600 dark:text-gray-300 leading-relaxed mb-4">
+                  The tool implements specialized analysis methods for environmental data, focusing on:
+                </p>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="bg-white dark:bg-gray-700 rounded-lg p-4">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Water Quality Analysis</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Comprehensive analysis of water quality parameters and their correlations</p>
+                  </div>
+                  <div className="bg-white dark:bg-gray-700 rounded-lg p-4">
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">Biodiversity Assessment</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Evaluation of species diversity and environmental impact</p>
+                  </div>
+                </div>
+              </div>
+
+              <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-6">Research Methodology</h2>
+              <div className="space-y-4">
+                <div className="flex items-start gap-3">
+                  <span className="text-blue-600 dark:text-blue-400 font-medium">1.</span>
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">Data Collection</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Standardized protocols for environmental data collection and sampling</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-blue-600 dark:text-blue-400 font-medium">2.</span>
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">Analysis Framework</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Implementation of scientific methods for environmental research</p>
+                  </div>
+                </div>
+                <div className="flex items-start gap-3">
+                  <span className="text-blue-600 dark:text-blue-400 font-medium">3.</span>
+                  <div>
+                    <h3 className="text-lg font-medium text-gray-900 dark:text-white">Results Interpretation</h3>
+                    <p className="text-gray-600 dark:text-gray-300">Scientific approach to interpreting environmental data and findings</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </motion.div>
       </div>
     </ResearchLayout>
   );

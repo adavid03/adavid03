@@ -1,61 +1,86 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { FaDownload } from "react-icons/fa6";
+import { IoClose } from "react-icons/io5";
 import Image from "next/image";
-import { createPortal } from "react-dom";
-import { useEffect, useState } from "react";
 
 interface ImageModalProps {
-  src: string;
-  alt: string;
+  isOpen: boolean;
   onClose: () => void;
+  imageUrl: string;
+  title: string;
 }
 
-export default function ImageModal({ src, alt, onClose }: ImageModalProps) {
-  const [mounted, setMounted] = useState(false);
+export default function ImageModal({ isOpen, onClose, imageUrl, title }: ImageModalProps) {
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(imageUrl);
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = title || 'image';
+      document.body.appendChild(a);
+      a.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(a);
+    } catch (error) {
+      console.error('Error downloading image:', error);
+    }
+  };
 
-  useEffect(() => {
-    setMounted(true);
-    return () => setMounted(false);
-  }, []);
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center bg-black/40 backdrop-blur-sm"
+          onClick={onClose}
+        >
+          <motion.div
+            initial={{ scale: 0.9, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.9, opacity: 0 }}
+            className="relative w-full h-full bg-white/10 dark:bg-black/10 backdrop-blur-xl border border-white/10 dark:border-black/10"
+            onClick={onClose}
+          >
+            {/* Header */}
+            <div className="absolute top-0 left-0 right-0 h-12 flex items-center justify-between px-4 z-10">
+              <h2 className="text-sm font-medium dark:text-white text-white truncate">{title}</h2>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={handleDownload}
+                  className="p-2 hover:bg-white/10 dark:hover:bg-black/10 rounded-full transition-colors"
+                  title="Download"
+                >
+                  <FaDownload className="w-4 h-4 dark:text-white text-white" />
+                </button>
+                <button
+                  onClick={onClose}
+                  className="p-2 hover:bg-white/10 dark:hover:bg-black/10 rounded-full transition-colors"
+                  title="Close"
+                >
+                  <IoClose className="w-4 h-4 dark:text-white text-white" />
+                </button>
+              </div>
+            </div>
 
-  const modalContent = (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-      className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/80 p-4"
-    >
-      <motion.div
-        initial={{ scale: 0.95 }}
-        animate={{ scale: 1 }}
-        exit={{ scale: 0.95 }}
-        className="relative w-full max-w-7xl aspect-video"
-        style={{ height: '80vh' }}
-        onClick={(e) => e.stopPropagation()}
-      >
-        <Image
-          src={src}
-          alt={alt}
-          fill
-          sizes="(max-width: 1536px) 100vw, 1536px"
-          className="object-contain"
-          quality={95}
-        />
-      </motion.div>
-      <button
-        onClick={onClose}
-        className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors"
-      >
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-        </svg>
-      </button>
-    </motion.div>
+            {/* Image Container */}
+            <div className="absolute inset-0 pt-12 p-2">
+              <Image
+                src={imageUrl}
+                alt={title}
+                fill
+                className="object-contain pt-12 p-2"
+                priority
+              />
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
-
-  if (!mounted) return null;
-
-  return createPortal(modalContent, document.body);
-} 
+}
